@@ -1,0 +1,26 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+credentials*
+passkey*
+.kamal/secrets*
+
+# Local Claude Code settings stay on this machine
+.claude/settings.local.json
+.claude/settings.local.proposed.json
+
+# OS and editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Build, logs and temp
+tmp/
+log/
+logs/
+node_modules/
+coverage/
