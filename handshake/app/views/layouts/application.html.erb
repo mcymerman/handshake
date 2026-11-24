@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for(:title).presence || "Handshake" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#fbf7f2">
+    <meta name="referrer" content="no-referrer">
+    <meta name="turbo-refresh-method" content="morph">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body>
+    <header class="top">
+      <%= link_to raw("Hand<span>shake</span>"), root_path, class: "brand" %>
+      <% if current_participant %>
+        <nav class="nav" aria-label="Main">
+          <%= nav_link "Code", root_path, controller_name.in?(%w[home my_codes zones]) %>
+          <%= nav_link "Chats", chat_threads_path, controller_name.in?(%w[chat_threads people add_ins group_handshakes reports proposals]) %>
+          <%= nav_link "Me", edit_profile_path, controller_name == "profiles" %>
+        </nav>
+      <% end %>
+    </header>
+
+    <div id="alerts" aria-live="polite">
+      <% flash.each do |type, text| %>
+        <% next unless type.in?(%w[notice alert]) %>
+        <%= render "shared/alert", text:, tone: (type == "alert" ? "warn" : "info") %>
+      <% end %>
+    </div>
+    <% if current_participant %>
+      <%= turbo_stream_from Broadcasts.participant_stream(current_participant), channel: ParticipantChannel %>
+    <% end %>
+
+    <main id="main">
+      <%= yield %>
+    </main>
+
+    <footer class="foot">
+      <%= link_to "How it works", how_path %>
+      <%= link_to "Privacy", privacy_path %>
+      <%= link_to "Terms", terms_path %>
+    </footer>
+  </body>
+</html>

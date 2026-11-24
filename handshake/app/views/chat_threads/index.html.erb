@@ -1,0 +1,25 @@
+<% content_for :title, "Chats · Handshake" %>
+<h1>Your chats</h1>
+<% @waiting.each do |proposal| %>
+  <p class="card">You've asked to join a chat. <%= link_to "Check on it", waiting_proposal_path(proposal) %></p>
+<% end %>
+<% if @memberships.empty? %>
+  <section class="card stack center">
+    <p>No chats yet. Meet someone, swap codes, and it'll show up here.</p>
+    <%= link_to "Show my code", root_path, class: "btn" %>
+  </section>
+<% else %>
+  <ul class="chat-list">
+    <% @memberships.each do |m| %>
+      <li>
+        <%= link_to chat_thread_path(m.chat_thread) do %>
+          <span>
+            <strong><%= thread_title(m) %></strong>
+            <span class="muted small"><%= pluralize(m.chat_thread.memberships.size, "person") %> · you're <%= m.alias_name %></span>
+          </span>
+          <span class="muted small">vanishes in <%= pluralize(m.chat_thread.days_left, "day") %></span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

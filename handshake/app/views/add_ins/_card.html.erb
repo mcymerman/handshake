@@ -1,0 +1,10 @@
+<%= turbo_frame_tag "add_in_code", data: { refresh_url: chat_thread_add_in_path(code.chat_thread) } do %>
+  <section class="card code-card">
+    <h2>1. They enter this code</h2>
+    <%= countdown_ring(seconds: code.seconds_left, total: 60) do %>
+      <%= code_tag(display) %>
+      <span class="secs" data-countdown-target="label"><%= code.seconds_left %>s</span>
+    <% end %>
+    <p class="small muted">This code is only for adding someone to this chat, and works once.</p>
+  </section>
+<% end %>

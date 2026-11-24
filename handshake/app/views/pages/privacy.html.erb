@@ -1,0 +1,19 @@
+<% content_for :title, "Privacy · Handshake" %>
+<h1>Our privacy promise</h1>
+<section class="card stack">
+  <p><strong>We never store location history, sell data or run ads.</strong></p>
+  <p>If you use "my area", your phone rounds your location to a square about 1 km wide before sending it. We turn that into a zone number and forget it. Venue zones don't use your location at all.</p>
+  <p>Zone numbers live only on short-lived codes, which are deleted within about two minutes of expiring or being used. Codes are stored scrambled (as a keyed hash), never as the digits.</p>
+  <p>Our logs never contain codes, message text, zones or IP addresses. To stop guessing, we keep a scrambled form of your connection's address for a few minutes at most.</p>
+</section>
+<section class="card stack">
+  <h2>What we keep, and for how long</h2>
+  <ul>
+    <li><strong>Your device:</strong> a random key in a cookie. We keep only a scrambled copy. Deleted after 30 days without use, or right away with "Delete everything".</li>
+    <li><strong>Messages:</strong> encrypted in our database and deleted with the chat: after 14 days (unless everyone extends), when a one-to-one chat ends, or when a group drops below 2 people. They're not end-to-end encrypted: our servers can decrypt them to deliver them. To arrive instantly, each message also passes through a short delivery queue, which is cleared within about 10 minutes, and at once when a chat ends.</li>
+    <li><strong>Your details</strong> (first name, photo, socials, phone): optional, encrypted, and shown only to a person you've both agreed to share with.</li>
+    <li><strong>Reports:</strong> the reason, your note, and the last 20 messages only if you choose to attach them. Deleted after 90 days.</li>
+    <li><strong>Venue counts:</strong> how many connections happened each day, nothing about who.</li>
+    <li><strong>Backups:</strong> encrypted database backups are kept up to 7 days, so deleted data can remain in a backup until it rolls off.</li>
+  </ul>
+</section>

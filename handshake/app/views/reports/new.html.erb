@@ -1,0 +1,30 @@
+<% content_for :title, "Report a problem · Handshake" %>
+<p><%= link_to "← Back to the chat", chat_thread_path(@thread) %></p>
+<h1>Report a problem</h1>
+<p class="muted">Thanks for speaking up. If you're in danger right now, call 911.</p>
+<%= form_with scope: :report, url: chat_thread_reports_path(@thread), class: "card stack" do |f| %>
+  <% if @others.size > 1 %>
+    <div class="field">
+      <%= f.label :membership_id, "Who is it about?" %>
+      <%= f.select :membership_id, @others.map { [ display_name(@membership, it), it.id ] }, include_blank: "Not about one person" %>
+    </div>
+  <% elsif @others.one? %>
+    <%= f.hidden_field :membership_id, value: @others.first.id %>
+    <p>About <strong><%= display_name(@membership, @others.first) %></strong>.</p>
+  <% end %>
+  <fieldset class="field">
+    <legend><strong>What happened?</strong></legend>
+    <% Report::REASONS.each do |key, label| %>
+      <label class="check"><%= f.radio_button :reason, key %> <span><%= label %></span></label>
+    <% end %>
+  </fieldset>
+  <div class="field">
+    <%= f.label :note, "Anything else? (optional)" %>
+    <%= f.text_area :note, rows: 3, maxlength: 1000 %>
+  </div>
+  <label class="check">
+    <%= f.check_box :include_evidence %>
+    <span>Attach the last 20 messages so our team can see what happened. <span class="muted">Off unless you tick it. Kept with the report for up to 90 days.</span></span>
+  </label>
+  <%= f.submit "Send report", class: "btn btn-block" %>
+<% end %>

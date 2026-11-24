@@ -1,0 +1,20 @@
+<% proposals.each do |proposal| %>
+  <% next if !proposal.add? && proposal.subject_participant_id == membership.participant_id %>
+  <div class="proposal stack" role="region" aria-label="Request to <%= proposal.add? ? 'add someone' : 'remove someone' %>">
+    <% if proposal.add? %>
+      <strong>Someone new wants to join<%= proposal.via == "group_handshake" ? " (from the group handshake)" : (" (added by #{proposal.proposer_membership.alias_name})" if proposal.proposer_membership) %>.</strong>
+      <p class="small">They'll only see messages from after they join, and they won't see anyone's name or details. <%= proposal.policy_hint %></p>
+    <% else %>
+      <strong><%= proposal.proposer_membership&.alias_name || "Someone" %> asked to remove <%= proposal.subject_alias %>.</strong>
+      <p class="small"><%= proposal.policy_hint %> Nobody sees how you answered.</p>
+    <% end %>
+    <% if proposal.awaiting?(membership) %>
+      <div class="row">
+        <%= button_to "Yes", vote_chat_thread_proposal_path(thread, proposal), params: { decision: "approve" }, class: "btn btn-small" %>
+        <%= button_to "Not this time", vote_chat_thread_proposal_path(thread, proposal), params: { decision: "decline" }, class: "btn btn-quiet btn-small" %>
+      </div>
+    <% else %>
+      <p class="small muted"><%= proposal.proposer_membership_id == membership.id && proposal.implicit_yes? ? "Waiting for the others to answer." : "Thanks, you've answered. Waiting for the others." %></p>
+    <% end %>
+  </div>
+<% end %>

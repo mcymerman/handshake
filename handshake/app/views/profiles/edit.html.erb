@@ -1,0 +1,39 @@
+<% content_for :title, "My details · Handshake" %>
+<h1>My details</h1>
+<p class="muted">All optional. Nothing here is shown to anyone until you and one other person both choose to share a step. You can stop sharing any time.</p>
+<%= form_with model: current_participant, url: profile_path, method: :patch, class: "card stack" do |f| %>
+  <% if current_participant.errors.any? %>
+    <p class="error" role="alert"><%= current_participant.errors.full_messages.to_sentence %></p>
+  <% end %>
+  <h2>Step 1: first name and photo</h2>
+  <div class="field">
+    <%= f.label :first_name, "First name" %>
+    <%= f.text_field :first_name, maxlength: 40, autocomplete: "given-name" %>
+  </div>
+  <div class="field" data-controller="photo">
+    <span class="label"><strong>Photo</strong></span>
+    <img class="photo-preview" data-photo-target="preview" src="<%= current_participant.photo_data %>" alt="Your photo" <%= "hidden" if current_participant.photo_data.blank? %>>
+    <%= f.hidden_field :photo_data, data: { photo_target: "data" } %>
+    <input type="file" accept="image/*" data-photo-target="file" data-action="change->photo#pick" aria-label="Choose a photo">
+    <button type="button" class="btn btn-quiet btn-small" data-action="photo#clear" data-photo-target="remove" <%= "hidden" if current_participant.photo_data.blank? %>>Remove photo</button>
+    <p class="hint">Shrunk on your phone before upload.</p>
+  </div>
+  <h2>Step 2: social handles</h2>
+  <div class="field">
+    <%= f.label :social_handles, "Social handles" %>
+    <%= f.text_field :social_handles, maxlength: 200, placeholder: "@you on Instagram" %>
+  </div>
+  <h2>Step 3: phone number</h2>
+  <div class="field">
+    <%= f.label :phone, "Phone number" %>
+    <%= f.telephone_field :phone, maxlength: 30, autocomplete: "tel" %>
+  </div>
+  <%= f.submit "Save", class: "btn btn-block" %>
+<% end %>
+
+<section class="card stack">
+  <h2>Delete everything</h2>
+  <p class="muted">Removes this device, your details and your seat in every chat. One-to-one chats end for both people.</p>
+  <%= button_to "Delete everything about me", profile_path, method: :delete, class: "btn btn-warn",
+        form: { data: { turbo_confirm: "Delete everything? This can't be undone." } } %>
+</section>

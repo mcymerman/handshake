@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Handshake admin</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body>
+    <header class="top">
+      <strong class="brand">Hand<span>shake</span> admin</strong>
+      <nav class="nav">
+        <%= link_to "Reports", admin_reports_path %>
+        <%= link_to "Venues", admin_venues_path %>
+        <%= link_to "Metrics", admin_metrics_path %>
+      </nav>
+    </header>
+    <div id="alerts"><% flash.each do |type, text| %><%= render "shared/alert", text:, tone: "info" %><% end %></div>
+    <main><%= yield %></main>
+  </body>
+</html>

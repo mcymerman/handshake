@@ -1,0 +1,65 @@
+# CI for the Handshake Rails app (in handshake/).
+# Lint (RuboCop), security scans (Brakeman, bundler-audit, importmap audit),
+# then the full test suite including real-browser system tests.
+name: Handshake CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main, dev, handshake-prototype ]
+
+defaults:
+  run:
+    working-directory: handshake
+
+jobs:
+  lint_and_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          working-directory: handshake
+          bundler-cache: true
+      - name: RuboCop
+        run: bin/rubocop -f github
+      - name: Brakeman (static security analysis)
+        run: bin/brakeman --no-pager --exit-on-warn
+      - name: bundler-audit (known vulnerable gems)
+        run: bin/bundler-audit check --update
+      - name: importmap audit (JavaScript packages)
+        run: bin/importmap audit
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: [ "5432:5432" ]
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=5
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432
+    steps:
+      - name: Install packages
+        working-directory: .
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libpq-dev
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          working-directory: handshake
+          bundler-cache: true
+      - name: Model, request, channel and job tests
+        run: bin/rails db:test:prepare test
+      - name: System tests (headless Chrome, real Action Cable)
+        run: bin/rails test:system
+      - name: Keep screenshots from failed system tests
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: system-test-screenshots
+          path: handshake/tmp/screenshots
+          if-no-files-found: ignore

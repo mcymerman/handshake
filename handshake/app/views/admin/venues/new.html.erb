@@ -1,0 +1,21 @@
+<h1>Add a venue</h1>
+<%= form_with scope: :venue, url: admin_venues_path, class: "card stack", data: { turbo: false } do |f| %>
+  <div class="field"><%= f.label :name, "Venue name" %><%= f.text_field :name, value: @form["name"], required: true %></div>
+  <div class="field"><%= f.label :zone_number, "Zone number (10–49)" %><%= f.number_field :zone_number, value: @form["zone_number"], in: 10..49, required: true %></div>
+  <div class="field"><%= f.label :label, "Zone label (optional)" %><%= f.text_field :label, value: @form["label"] %></div>
+  <div class="field"><%= f.label :neighbors, "Neighbouring zones (optional, e.g. 48, 61)" %><%= f.text_field :neighbors, value: @form["neighbors"] %></div>
+  <div class="row">
+    <div class="field"><%= f.label :opens, "Opens (HH:MM)" %><%= f.text_field :opens, value: @form["opens"], placeholder: "07:00" %></div>
+    <div class="field"><%= f.label :closes, "Closes (HH:MM)" %><%= f.text_field :closes, value: @form["closes"], placeholder: "18:00" %></div>
+  </div>
+  <fieldset class="field">
+    <legend><strong>Themed window (optional)</strong></legend>
+    <div class="field"><%= f.label :theme_label, "Theme, e.g. Thursday trivia night" %><%= f.text_field :theme_label, value: @form["theme_label"] %></div>
+    <div class="row">
+      <div class="field"><%= f.label :theme_wday, "Day" %><%= f.select :theme_wday, [ [ "Every day", "" ] ] + Date::DAYNAMES.each_with_index.map { |d, i| [ d, i ] }, selected: @form["theme_wday"] %></div>
+      <div class="field"><%= f.label :theme_starts, "From (HH:MM)" %><%= f.text_field :theme_starts, value: @form["theme_starts"], placeholder: "19:00" %></div>
+      <div class="field"><%= f.label :theme_ends, "To (HH:MM)" %><%= f.text_field :theme_ends, value: @form["theme_ends"], placeholder: "22:00" %></div>
+    </div>
+  </fieldset>
+  <%= f.submit "Create venue", class: "btn" %>
+<% end %>

@@ -1,0 +1,9 @@
+<% content_for :title, "Your code · Handshake" %>
+<section class="big-code">
+  <p class="muted">Your code</p>
+  <div data-controller="countdown" data-countdown-seconds-value="<%= @code.seconds_left %>" data-countdown-total-value="60">
+    <%= code_tag(@display) %>
+    <p class="secs" data-countdown-target="label"><%= @code.seconds_left %>s</p>
+  </div>
+  <p><%= link_to "Done", root_path, class: "btn" %></p>
+</section>

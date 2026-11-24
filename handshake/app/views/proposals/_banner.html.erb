@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "proposals", data: { refresh_url: chat_thread_proposals_path(thread) } do %>
+  <%= render "proposals/banner_body", proposals:, membership:, thread: %>
+<% end %>

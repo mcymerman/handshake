@@ -1,0 +1,8 @@
+<% if message.system? %>
+  <div id="<%= dom_id(message) %>" class="msg-system" data-seq="<%= message.seq %>"><%= message.body %></div>
+<% else %>
+  <div id="<%= dom_id(message) %>" class="msg" data-seq="<%= message.seq %>" data-author="<%= message.membership_id %>">
+    <div class="who"><%= message.author_alias %><%= " (left)" if message.author_left? %> · <%= message.created_at.strftime("%-l:%M %P") %></div>
+    <div class="bubble"><%= message.body %></div>
+  </div>
+<% end %>

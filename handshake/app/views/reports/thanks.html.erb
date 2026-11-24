@@ -1,0 +1,8 @@
+<% content_for :title, "Thanks · Handshake" %>
+<section class="card stack center">
+  <h1>Thanks for telling us</h1>
+  <p>A person on our team will look at it. If someone breaks the rules, we can stop their device from starting new chats.</p>
+  <p class="muted">You don't have to stay. Leaving is quiet: nobody gets a notice saying you reported them.</p>
+  <%= button_to(@group ? "Leave this group" : "End this chat", chat_thread_path(@thread_id), method: :delete, class: "btn btn-block") %>
+  <%= link_to "Back to the chat", chat_thread_path(@thread_id), class: "btn btn-quiet btn-block" %>
+</section>

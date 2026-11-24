@@ -1,0 +1,17 @@
+<% zone = zones.first %>
+<article class="tent">
+  <p class="tent-brand">Handshake</p>
+  <p class="venue-name"><%= venue.name %></p>
+  <p class="muted">Met someone here? Keep talking, without swapping numbers.</p>
+  <div class="zone-big">Zone <%= zone&.zone_number || "–" %></div>
+  <% if (theme = zone&.current_theme) %><p class="theme"><%= theme %></p><% end %>
+  <div class="qr"><%= qr_svg(tent_url(venue)) %></div>
+  <p>Table words: <span class="word"><%= venue.table_word %></span></p>
+  <ol class="steps">
+    <li><span>Scan the code with your camera. No app needed.</span></li>
+    <li><span>Or open <strong><%= request.host %></strong> and type zone <%= zone&.zone_number %> and the two words.</span></li>
+    <li><span>Say your codes to each other out loud, and type theirs. A private chat opens.</span></li>
+  </ol>
+  <p class="small muted">Valid <%= week_label(venue) %>. For adults (18+). No location history, no ads, no selling data. Chats vanish in 14 days.</p>
+  <% if zone&.opens_minute %><p class="small muted">Works during opening hours: <%= zone.hours_label %>.</p><% end %>
+</article>

@@ -1,0 +1,4 @@
+<div class="alert <%= 'alert-warn' if tone == 'warn' %>" role="<%= tone == 'warn' ? 'alert' : 'status' %>" data-controller="alert" data-alert-sticky-value="<%= tone == 'warn' %>">
+  <span><%= text %></span>
+  <button type="button" data-action="alert#dismiss" aria-label="Dismiss">×</button>
+</div>

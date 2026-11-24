@@ -1,0 +1,45 @@
+<% content_for :title, "#{thread_title(@membership)} · Handshake" %>
+<div id="thread_<%= @thread.id %>">
+  <%= turbo_stream_from @thread, channel: ChatThreadChannel %>
+
+  <div class="sticky-top">
+  <div class="thread-head">
+    <div>
+      <h1><%= thread_title(@membership) %></h1>
+      <p class="muted small">You're <%= @membership.alias_name %> · vanishes in <%= pluralize(@thread.days_left, "day") %></p>
+    </div>
+    <details class="menu">
+      <summary class="btn btn-quiet btn-small" aria-label="Chat menu">Menu</summary>
+      <div class="menu-items">
+        <%= link_to "People and reveals", chat_thread_people_path(@thread) %>
+        <% if @thread.open_seats.positive? %>
+          <%= link_to "Add someone", chat_thread_add_in_path(@thread) %>
+          <%= link_to "Group handshake", chat_thread_group_handshake_path(@thread) %>
+          <% if demo_mode? %><%= button_to "Demo: a newcomer asks to join", chat_thread_demo_newcomer_path(@thread) %><% end %>
+        <% end %>
+        <%= button_to "Extend 14 days", chat_thread_extension_path(@thread) %>
+        <%= link_to "Report a problem", new_chat_thread_report_path(@thread) %>
+        <%= button_to(@thread.group? ? "Leave group" : "End chat for both of us", chat_thread_path(@thread), method: :delete, class: "danger",
+              form: { data: { turbo_confirm: @thread.group? ? "Leave this group? You won't see it again." : "End this chat? It disappears for both of you." } }) %>
+      </div>
+    </details>
+  </div>
+
+  <%= turbo_frame_tag "proposals", data: { refresh_url: chat_thread_proposals_path(@thread) } do %>
+    <%= render "proposals/banner_body", proposals: @thread.pending_proposals.order(:created_at), membership: @membership, thread: @thread %>
+  <% end %>
+  </div>
+
+  <div id="messages" class="messages" data-controller="messages" data-messages-me-value="<%= @membership.id %>" aria-live="polite">
+    <%= render partial: "messages/message", collection: @messages, as: :message %>
+  </div>
+
+  <div class="composer">
+    <%= form_with model: [ @thread, Message.new ], id: "composer", data: { controller: "composer", action: "turbo:submit-end->composer#sent" } do |f| %>
+      <%= f.label :body, "Message", class: "sr-only", hidden: true %>
+      <%= f.text_area :body, rows: 1, placeholder: "Say hi…", maxlength: Message::MAX_LENGTH, required: true, "aria-label": "Message",
+            data: { composer_target: "body", action: "keydown->composer#key" } %>
+      <%= f.submit "Send", class: "btn" %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<% content_for :title, "Waiting for the group · Handshake" %>
+<section class="card stack center" data-controller="auto-refresh" data-auto-refresh-seconds-value="15">
+  <% case @proposal.status %>
+  <% when "pending" %>
+    <h1>Asking the group…</h1>
+    <p>Everyone in the chat is being asked if you can join. This usually takes a moment; it times out after 10 minutes.</p>
+    <p class="muted small">You'll see messages from after you join. Nobody's name or details are shared by joining.</p>
+  <% when "approved" %>
+    <h1>You're in!</h1>
+    <%= link_to "Open the chat", chat_thread_path(@proposal.chat_thread), class: "btn" %>
+  <% when "expired" %>
+    <h1>Nobody answered in time</h1>
+    <p>You weren't added. You can try again together.</p>
+  <% else %>
+    <h1>Not this time</h1>
+    <p>The group decided to keep the chat as it is. No hard feelings.</p>
+  <% end %>
+  <%= link_to "Back to my code", root_path, class: "btn btn-quiet" %>
+</section>

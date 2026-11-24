@@ -1,0 +1,6 @@
+<% content_for :title, "Table tent · #{@venue.name}" %>
+<div class="print-bar" data-controller="print">
+  <button type="button" class="btn" data-action="print#print">Print table tent</button>
+  <p class="small muted">The QR code and table words change every Monday. Print a fresh one each week (last week's keeps working until Monday noon).</p>
+</div>
+<%= render "venue_dashboards/tent", venue: @venue, zones: @zones %>

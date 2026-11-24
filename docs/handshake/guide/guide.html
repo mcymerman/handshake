@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Handshake: how to use it</title>
+<style>
+  :root { --ink:#1f2a37; --muted:#5b6573; --accent:#23715f; --soft:#e3f1ec; --sun:#fdf0e1; --line:#e7dfd5; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#fbf7f2; color:var(--ink); font: 16px/1.55 -apple-system, "Segoe UI", Roboto, system-ui, sans-serif; }
+  main { max-width: 52rem; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  h1 { font-size: 2rem; margin: 0 0 .25rem; }
+  h1 span, .brand span { color: var(--accent); }
+  h2 { font-size: 1.35rem; margin: 2.5rem 0 .5rem; padding-top: 1rem; border-top: 2px solid var(--line); }
+  h3 { font-size: 1.05rem; margin: 1.25rem 0 .25rem; }
+  p, li { max-width: 40rem; }
+  .lead { font-size: 1.1rem; color: var(--muted); }
+  .toc { background:#fff; border-radius: 14px; padding: 1rem 1.25rem; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+  .toc ol { margin: .25rem 0; padding-left: 1.25rem; columns: 2; }
+  .shots { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0; }
+  figure { margin: 0; background:#fff; border-radius: 14px; padding: .6rem; box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 6px 18px rgba(0,0,0,.05); break-inside: avoid; }
+  figure.phone { width: 15.5rem; }
+  figure.wide { width: 100%; }
+  figure img { width: 100%; display: block; border-radius: 8px; border: 1px solid var(--line); }
+  figcaption { font-size: .85rem; color: var(--muted); padding: .45rem .2rem 0; }
+  .tip { background: var(--soft); border-radius: 12px; padding: .7rem 1rem; margin: .75rem 0; }
+  .note { background: var(--sun); border-radius: 12px; padding: .7rem 1rem; margin: .75rem 0; }
+  code, kbd { background:#fff; border:1px solid var(--line); border-radius:6px; padding: 0 .3rem; font-size: .9em; }
+  table { border-collapse: collapse; width: 100%; background:#fff; border-radius: 12px; overflow: hidden; }
+  th, td { text-align:left; padding:.5rem .7rem; border-bottom:1px solid var(--line); vertical-align: top; }
+  th { background: var(--soft); font-size:.9rem; }
+  @media print {
+    body { background:#fff; font-size: 12px; }
+    main { max-width: none; padding: 0 1cm; }
+    h2 { break-before: page; border-top: 0; }
+    h2.keep { break-before: auto; }
+    figure { box-shadow: none; border: 1px solid #ddd; }
+    figure.phone { width: 4.6cm; }
+    .toc ol { columns: 2; }
+  }
+</style>
+</head>
+<body>
+<main>
+<h1>Hand<span>shake</span>: how to use it</h1>
+<p class="lead">Met someone? Keep talking without swapping numbers. This guide walks through every screen of the working prototype, using real screenshots from a phone-sized browser.</p>
+
+<div class="toc">
+<strong>In this guide</strong>
+<ol>
+  <li><a href="#start">Getting started</a></li>
+  <li><a href="#code">Your code</a></li>
+  <li><a href="#connect">Connecting with someone</a></li>
+  <li><a href="#chat">Chatting</a></li>
+  <li><a href="#reveal">Sharing more, one person at a time</a></li>
+  <li><a href="#add">Adding someone to a chat</a></li>
+  <li><a href="#group">Group handshake</a></li>
+  <li><a href="#leave">Leaving and ending</a></li>
+  <li><a href="#safety">Staying safe: reporting</a></li>
+  <li><a href="#demo">Demo mode: try it alone</a></li>
+  <li><a href="#venues">For venues</a></li>
+  <li><a href="#admin">For the Handshake team (admin)</a></li>
+  <li><a href="#privacy">Privacy in plain words</a></li>
+  <li><a href="#run">Running it yourself</a></li>
+  <li><a href="#messages">What the messages mean</a></li>
+</ol>
+</div>
+
+<h2 id="start" class="keep">1. Getting started</h2>
+<p>Open the Handshake web page on your phone. There's nothing to install and no sign-up: no email, no phone number. Tick that you're 18 or older, then tap <strong>Get my code</strong>.</p>
+<p>Next, say where you are. Codes only work between people in the same place, so there are three ways to do it:</p>
+<ul>
+  <li><strong>Scan the table tent.</strong> At a venue, point your phone camera at the QR code on the Handshake table tent or poster.</li>
+  <li><strong>Type the zone and table words.</strong> The tent shows a zone number (like <em>47</em>) and two short words (like <em>maple fox</em>) that change every Monday.</li>
+  <li><strong>Use my area.</strong> Anywhere else, your phone rounds your location to a square about 1 km wide <em>before</em> sending it. Handshake turns that into a zone number and forgets it.</li>
+</ul>
+<div class="shots">
+  <figure class="phone"><img src="img/01-welcome.jpg" alt="Welcome screen"><figcaption>Welcome: tick 18+ and tap Get my code.</figcaption></figure>
+  <figure class="phone"><img src="img/02-zone.jpg" alt="Choose your zone"><figcaption>Where are you? Venue zone and table words, or your rough area.</figcaption></figure>
+</div>
+
+<h2 id="code">2. Your code</h2>
+<p>Your screen shows a code made of three pairs of digits, like <strong>12-34-49</strong>. The first pair (in orange) is the zone. The ring counts down from 60 seconds, then you get a fresh code automatically. Each code works once.</p>
+<p>In a loud room, tap <strong>Show big</strong> to fill the screen with your code so the other person can read it.</p>
+<div class="shots">
+  <figure class="phone"><img src="img/03-home-code.jpg" alt="Your code with countdown"><figcaption>Your code, with the 60-second countdown ring.</figcaption></figure>
+  <figure class="phone"><img src="img/19-big-code.jpg" alt="Big code"><figcaption>Show big: easy to read across a table.</figcaption></figure>
+</div>
+
+<h2 id="connect">3. Connecting with someone</h2>
+<ol>
+  <li>Say your codes to each other out loud.</li>
+  <li>Type their code into <strong>Their code</strong> and tap <strong>Connect</strong>. You'll see <em>"Got it! Now they enter your code."</em></li>
+  <li>When they type yours, a private chat opens on <strong>both</strong> phones at once.</li>
+</ol>
+<p>It always takes both of you. Nobody can start a chat with you on their own. A typo doesn't use up anyone's code; just try again.</p>
+<div class="shots">
+  <figure class="phone"><img src="img/04-waiting-for-them.jpg" alt="Waiting for them"><figcaption>You've entered theirs. Now they enter yours.</figcaption></figure>
+  <figure class="phone"><img src="img/07-typo.jpg" alt="Typo"><figcaption>A typo: nothing is used up. Check the digits.</figcaption></figure>
+</div>
+<div class="tip"><strong>Someone overheard your code?</strong> If a second person types it, Handshake cancels it, gives you a new one and tells you: <em>"Two people entered your code, so we made you a fresh one."</em> Nobody gets connected by accident.</div>
+
+<h2 id="chat">4. Chatting</h2>
+<p>You each get a random nickname for this chat only, like <em>Rosy Finch</em>, so nobody can link you across chats. Messages arrive instantly. Every chat vanishes after 14 days unless everyone taps <strong>Extend 14 days</strong>.</p>
+<p>The <strong>Menu</strong> holds everything else: People and reveals, Add someone, Group handshake, Extend, Report a problem, and End chat (or Leave group).</p>
+<div class="shots">
+  <figure class="phone"><img src="img/05-chat.jpg" alt="A chat"><figcaption>A private chat. Your messages are green.</figcaption></figure>
+  <figure class="phone"><img src="img/06-chat-menu.jpg" alt="Chat menu"><figcaption>The chat menu.</figcaption></figure>
+  <figure class="phone"><img src="img/09-chats-list.jpg" alt="Chats list"><figcaption>Chats: all your open chats and when they vanish.</figcaption></figure>
+</div>
+
+<h2 id="reveal">5. Sharing more, one person at a time</h2>
+<p>Everyone starts anonymous. If you'd like to share more, fill in <strong>Me</strong> (all optional): first name and photo, social handles, phone number. Nothing there is shown to anyone yet.</p>
+<p>Then open <strong>Menu → People and reveals</strong>. There are three steps: <em>1. First name and photo</em>, <em>2. Social handles</em>, <em>3. Phone number</em>. A step opens only when <strong>you both</strong> tap <strong>Share</strong> on it. Steps go in order, and you can tap <strong>Stop</strong> any time.</p>
+<p>In a group it's still one person at a time. Sharing with one member never shows your details to anyone else.</p>
+<div class="shots">
+  <figure class="phone"><img src="img/08-my-details.jpg" alt="My details"><figcaption>Me: what you <em>could</em> share. Hidden until you both agree.</figcaption></figure>
+  <figure class="phone"><img src="img/10-reveal-offer.jpg" alt="They're ready"><figcaption>They've offered step 1. Share yours too?</figcaption></figure>
+  <figure class="phone"><img src="img/11-reveal-shared.jpg" alt="Shared"><figcaption>Both chose it: now you see their first name.</figcaption></figure>
+</div>
+
+<h2 id="add">6. Adding someone to a chat</h2>
+<p>A chat can grow to 8 people, but only if the group agrees.</p>
+<ol>
+  <li>In the chat, tap <strong>Menu → Add someone</strong>. You get a one-time code for this chat.</li>
+  <li>The newcomer types that code on their phone, and you type <em>their</em> code, the same two-way handshake as before. Tap <strong>Ask the group</strong>.</li>
+  <li>Everyone already in the chat sees <strong>"Someone new wants to join"</strong> with <strong>Yes</strong> and <strong>Not this time</strong>. By default everyone must say yes. Nobody sees how anyone else voted.</li>
+  <li>Once approved, the newcomer is in. They see only messages sent after they joined, and nobody's name or details.</li>
+</ol>
+<div class="shots">
+  <figure class="phone"><img src="img/12-add-someone.jpg" alt="Add someone"><figcaption>Add someone: they enter this code, you enter theirs.</figcaption></figure>
+  <figure class="phone"><img src="img/13-newcomer-waiting.jpg" alt="Newcomer waiting"><figcaption>The newcomer waits while the group is asked.</figcaption></figure>
+  <figure class="phone"><img src="img/14-approve-newcomer.jpg" alt="Approve"><figcaption>Existing members say yes or not this time.</figcaption></figure>
+  <figure class="phone"><img src="img/15-group-chat-newcomer.jpg" alt="Newcomer view"><figcaption>The newcomer's view: only what came after they joined.</figcaption></figure>
+</div>
+<p>Each chat can choose who must agree: <strong>Everyone agrees</strong> (the default), <strong>Most people agree</strong> or <strong>Any one member</strong>. Find this at the bottom of People and reveals. A stricter choice applies at once; a looser one needs everyone to pick it. The same rule applies when someone asks the group to remove a member. Requests that nobody answers expire after 10 minutes.</p>
+
+<h2 id="group">7. Group handshake</h2>
+<p>All together in person? Instead of adding people one by one, tap <strong>Menu → Group handshake</strong>. Anyone nearby can type the code shown for the next 2 minutes. Each person who does still needs the group's yes, including from you, since you didn't vet them one by one.</p>
+<div class="shots">
+  <figure class="phone"><img src="img/16-group-handshake-start.jpg" alt="Start group handshake"><figcaption>Start a 2-minute group handshake.</figcaption></figure>
+  <figure class="phone"><img src="img/17-group-handshake-code.jpg" alt="Group code"><figcaption>The group code, counting down from 2 minutes.</figcaption></figure>
+</div>
+
+<h2 id="leave">8. Leaving and ending</h2>
+<p><strong>End chat for both of us</strong> (in a one-to-one) makes the chat disappear for both people. There's no "blocked" message, just <em>"This chat has ended."</em> <strong>Leave group</strong> removes only you. If fewer than 2 people remain, the chat disappears. You can also delete everything about your device from <strong>Me → Delete everything about me</strong>.</p>
+<div class="shots">
+  <figure class="phone"><img src="img/30-chat-ended-other-side.jpg" alt="Chat ended"><figcaption>What the other person sees when a chat is ended.</figcaption></figure>
+</div>
+
+<h2 id="safety">9. Staying safe: reporting</h2>
+<p><strong>Menu → Report a problem</strong>. Choose a reason, and add a note if you like. You can tick a box to attach the last 20 messages so the team can see what happened. It's off unless you tick it. After reporting you can quietly leave; nobody is told you reported them. The team can stop a device from starting or joining chats.</p>
+<div class="shots">
+  <figure class="phone"><img src="img/18-report.jpg" alt="Report"><figcaption>Report a problem.</figcaption></figure>
+  <figure class="phone"><img src="img/27-report-thanks.jpg" alt="Report thanks"><figcaption>After a report: leave quietly if you want.</figcaption></figure>
+</div>
+
+<h2 id="demo">10. Demo mode: try it alone</h2>
+<p>For sales demos and pilot onboarding, demo mode adds a friendly bot. On your code screen tap <strong>Try with a demo friend</strong>. The bot has already typed your code, so type its code and you're connected. It replies to messages, matches your reveal steps, and says yes to join requests. Inside a chat, the menu also offers <strong>Demo: a newcomer asks to join</strong> so you can try approvals. Demo mode is on in development and off in production unless <code>DEMO_MODE=true</code>.</p>
+<div class="shots">
+  <figure class="phone"><img src="img/20-demo-friend.jpg" alt="Demo friend"><figcaption>Demo mode: your demo friend's code.</figcaption></figure>
+</div>
+
+<h2 id="venues">11. For venues</h2>
+<p>Each venue gets a private staff link (the Handshake team creates it in admin). It opens three pages:</p>
+<ul>
+  <li><strong>Table tent:</strong> print it and put it on tables. It shows the zone number, a QR code, this week's two table words, and three-step instructions. The QR code and words change every Monday; last week's keep working until Monday noon.</li>
+  <li><strong>Live display:</strong> the same tent for a tablet or screen. It refreshes itself and shows themed windows such as <em>"Thursday trivia night"</em>.</li>
+  <li><strong>Dashboard:</strong> how many new connections and group additions happened each day. Counts only; never who, what or exactly when. Days with 1–2 show "fewer than 3".</li>
+</ul>
+<p>Venue zones only work during opening hours. A posted code is no use from home: you need this week's QR code or table words, and a chat still needs both people to type each other's code.</p>
+<div class="shots">
+  <figure class="wide"><img src="img/21-table-tent.jpg" alt="Table tent"><figcaption>The printable table tent.</figcaption></figure>
+  <figure class="wide"><img src="img/22-staff-dashboard.jpg" alt="Staff dashboard"><figcaption>The staff dashboard: counts only.</figcaption></figure>
+</div>
+
+<h2 id="admin">12. For the Handshake team (admin)</h2>
+<p>Admin lives at <code>/admin</code> and is switched off unless an admin password is set. <strong>Reports</strong> shows each report's reason, note, nickname, and the messages only if the reporter attached them. From there you can resolve a report or suspend a device. <strong>Venues</strong> creates a venue and shows its staff link once. <strong>Metrics</strong> shows daily totals only (handshakes, chats, groups, second-day conversations, reveal steps), which are the numbers the pilot's go/no-go decision uses.</p>
+<div class="shots">
+  <figure class="wide"><img src="img/28-admin-reports.jpg" alt="Admin reports"><figcaption>Admin: reports with minimal data.</figcaption></figure>
+  <figure class="wide"><img src="img/29-admin-metrics.jpg" alt="Admin metrics"><figcaption>Admin: daily totals for the pilot metrics.</figcaption></figure>
+</div>
+
+<h2 id="privacy">13. Privacy in plain words</h2>
+<ul>
+  <li>We never store location history, sell data or run ads.</li>
+  <li>"Use my area" sends only a rounded square about 1 km wide, which is turned into a zone number and forgotten.</li>
+  <li>Codes are stored scrambled and deleted within about two minutes.</li>
+  <li>Logs never contain codes, messages, zones or internet addresses.</li>
+  <li>Messages are encrypted in the database and deleted with the chat. They are <em>not</em> end-to-end encrypted: the server can read them in order to deliver them, and we say so.</li>
+  <li>Encrypted backups are kept up to 7 days.</li>
+</ul>
+<div class="shots">
+  <figure class="wide"><img src="img/26-privacy.jpg" alt="Privacy page"><figcaption>The privacy page inside the app.</figcaption></figure>
+</div>
+
+<h2 id="run">14. Running it yourself</h2>
+<p>The app is in the <code>handshake/</code> folder of the package. On a Mac with Ruby 4.0.10 and PostgreSQL:</p>
+<ol>
+  <li><code>cd handshake</code> then <code>bin/setup</code> (installs everything, prepares the database, starts the server).</li>
+  <li><code>bin/rails db:seed</code> adds a cafe, a climbing gym, a bar and a conference. It prints each zone's table words.</li>
+  <li>Open <code>http://localhost:3000</code> in two different browsers (or one private window), choose zone <strong>12</strong> with its table words, and swap codes. Or use demo mode with one browser.</li>
+  <li>Staff pages in development: <code>/dash/dev-conf</code>, <code>/dash/dev-bean</code>. Admin: start the server with <code>ADMIN_PASSWORD=…</code> (12+ characters).</li>
+</ol>
+<p>Deploying (Kamal on your own server, or Render) is described step by step in <code>handshake/README.md</code>. Nothing has been deployed; that waits for your go-ahead.</p>
+<div class="shots">
+  <figure class="wide"><img src="img/24-desktop-home.jpg" alt="Desktop view"><figcaption>It works on a laptop too.</figcaption></figure>
+</div>
+
+<h2 id="messages">15. What the messages mean</h2>
+<table>
+  <tr><th>You see</th><th>What it means</th></tr>
+  <tr><td>Got it! Now they enter your code.</td><td>Half done. It connects when they type yours.</td></tr>
+  <tr><td>No code matches that.</td><td>A typo, or the code changed. Nothing was used up.</td></tr>
+  <tr><td>That code just expired. Ask for the new one.</td><td>Codes last a minute; theirs has refreshed.</td></tr>
+  <tr><td>That code is from a different zone.</td><td>You're in different places, or one of you picked the wrong zone.</td></tr>
+  <tr><td>Two people entered your code, so we made you a fresh one.</td><td>Someone may have overheard. Show your new code only to the person in front of you.</td></tr>
+  <tr><td>Too many tries… 5 minutes.</td><td>8 wrong codes in 5 minutes rests your device for 5 minutes (stops guessing).</td></tr>
+  <tr><td>This zone is paused for a couple of minutes.</td><td>Unusual guessing in this zone. It reopens by itself.</td></tr>
+  <tr><td>This zone is closed right now.</td><td>Venue zones only work during opening hours.</td></tr>
+  <tr><td>Asking the group…</td><td>You're waiting for the members to approve you (up to 10 minutes).</td></tr>
+  <tr><td>This chat has ended.</td><td>Someone ended it, or it reached its 14 days. It's gone for everyone.</td></tr>
+</table>
+<p class="lead" style="margin-top:2rem">Made for the Handshake prototype, November 2026.</p>
+</main>
+</body>
+</html>

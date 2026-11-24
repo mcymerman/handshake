@@ -1,0 +1,73 @@
+# Kamal 2 deploy: one small VM runs the app and PostgreSQL.
+#   1. Point a DNS name at your server and fill in the values marked CHANGE.
+#   2. Put secrets in your shell or password manager (see .kamal/secrets).
+#   3. kamal setup      (first time: installs Docker, boots Postgres and the app)
+#      kamal deploy     (every release after that)
+service: handshake
+image: CHANGE_registry_user/handshake
+
+servers:
+  web:
+    - CHANGE.server.ip.address
+
+# Kamal proxy terminates TLS with Let's Encrypt and health-checks /up.
+proxy:
+  ssl: true
+  host: CHANGE.handshake.example.com
+  healthcheck:
+    path: /up
+    interval: 3
+    timeout: 5
+
+registry:
+  server: ghcr.io
+  username: CHANGE_registry_user
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  secret:
+    - SECRET_KEY_BASE
+    - DATABASE_URL
+    - AR_ENCRYPTION_PRIMARY_KEY
+    - AR_ENCRYPTION_DETERMINISTIC_KEY
+    - AR_ENCRYPTION_KEY_DERIVATION_SALT
+    - ADMIN_PASSWORD
+  clear:
+    SOLID_QUEUE_IN_PUMA: true
+    APP_HOSTS: CHANGE.handshake.example.com
+    RAILS_LOG_LEVEL: info
+    DEMO_MODE: false
+
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+  dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
+
+asset_path: /rails/public/assets
+
+builder:
+  arch: amd64
+
+# PostgreSQL on the same VM. Back it up off the server (see docs/OPERATIONS.md).
+accessories:
+  db:
+    image: postgres:16
+    host: CHANGE.server.ip.address
+    port: "127.0.0.1:5432:5432"
+    env:
+      clear:
+        POSTGRES_USER: handshake
+        POSTGRES_DB: handshake_production
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data
+
+# Logs: keep at most ~7 days on the server.
+logging:
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "7"

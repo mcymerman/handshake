@@ -1,0 +1,21 @@
+# One PostgreSQL database holds the app, Solid Queue, Solid Cache and Solid Cable.
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 }.to_i + 5 %>
+  host: <%= ENV["DB_HOST"] %>
+  username: <%= ENV["DB_USER"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
+
+development:
+  <<: *default
+  database: handshake_development
+
+test:
+  <<: *default
+  database: handshake_test
+
+# Production reads DATABASE_URL (Render, Fly, Kamal accessory all provide one).
+production:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>

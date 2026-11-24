@@ -1,0 +1,72 @@
+<% content_for :title, "People · Handshake" %>
+<p><%= link_to "← Back to the chat", chat_thread_path(@thread) %></p>
+<h1>People and reveals</h1>
+<p class="muted">You choose what to share with each person, one at a time. A step opens only when you've both chosen it. Nothing is ever shared with the whole group at once.</p>
+
+<% @others.each do |other| %>
+  <% mine = RevealGrant.offered(@membership, other) %>
+  <% theirs = RevealGrant.offered(other, @membership) %>
+  <% mutual = [ mine, theirs ].min %>
+  <% person = other.participant %>
+  <section class="card" id="person_<%= other.id %>">
+    <div class="person">
+      <% if mutual >= 1 && person.photo_data.present? %>
+        <img class="avatar" src="<%= person.photo_data %>" alt="Photo of <%= person.first_name %>">
+      <% else %>
+        <span class="avatar" aria-hidden="true"><%= initials(other.alias_name) %></span>
+      <% end %>
+      <div>
+        <strong><%= display_name(@membership, other) %></strong>
+        <div class="small muted">Shared with each other: <%= RevealGrant::LEVELS[mutual] %></div>
+      </div>
+    </div>
+
+    <% if mutual >= 1 %>
+      <div class="revealed small">
+        <div><strong>First name:</strong> <%= person.first_name.presence || "not filled in" %></div>
+        <% if mutual >= 2 %><div><strong>Socials:</strong> <%= person.social_handles.presence || "not filled in" %></div><% end %>
+        <% if mutual >= 3 %><div><strong>Phone:</strong> <%= person.phone.presence || "not filled in" %></div><% end %>
+      </div>
+    <% end %>
+
+    <ul class="ladder">
+      <% (1..3).each do |level| %>
+        <li>
+          <span>
+            <%= level %>. <%= RevealGrant::LEVELS[level] %>
+            <span class="state">
+              <% if mutual >= level %><span class="shared">· shared</span>
+              <% elsif mine >= level %>· you're ready, waiting for them
+              <% elsif level == mutual + 1 && theirs >= level %>· they're ready if you are
+              <% end %>
+            </span>
+          </span>
+          <% if level == mutual + 1 && mine < level %>
+            <%= button_to "Share", chat_thread_person_path(@thread, other), method: :patch, params: { level: }, class: "btn btn-small" %>
+          <% elsif level == [ mine, 1 ].max && mine >= 1 && mine == level %>
+            <%= button_to "Stop", chat_thread_person_path(@thread, other), method: :patch, params: { level: level - 1 }, class: "btn btn-quiet btn-small" %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+    <% if mine.zero? && current_participant.first_name.blank? %>
+      <p class="hint">Tip: fill in <%= link_to "your details", edit_profile_path %> first, so there's something to share.</p>
+    <% end %>
+
+    <% if @thread.group? %>
+      <%= button_to "Ask the group to remove #{other.alias_name}", chat_thread_proposals_path(@thread), params: { membership_id: other.id }, class: "btn btn-warn btn-small",
+            form: { data: { turbo_confirm: "Ask everyone whether #{other.alias_name} should be removed?" } } %>
+    <% end %>
+  </section>
+<% end %>
+
+<section class="card stack">
+  <h2>Who must agree to add or remove someone</h2>
+  <%= form_with url: chat_thread_policy_path(@thread), method: :patch do %>
+    <% ChatThread::POLICIES.each do |policy| %>
+      <label class="check"><%= radio_button_tag :approval_policy, policy, @thread.approval_policy == policy %> <span><%= ChatThread::POLICY_LABELS[policy] %><%= " (now)" if @thread.approval_policy == policy %></span></label>
+    <% end %>
+    <p class="hint">A stricter choice applies at once. A looser one needs everyone to pick it.</p>
+    <%= submit_tag "Save", class: "btn btn-quiet btn-small" %>
+  <% end %>
+</section>

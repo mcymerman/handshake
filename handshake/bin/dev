@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+# Development server with background jobs (expiry purges) running inside Puma.
+ENV["SOLID_QUEUE_IN_PUMA"] ||= "1"
+exec "./bin/rails", "server", *ARGV

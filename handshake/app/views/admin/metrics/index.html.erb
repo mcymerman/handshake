@@ -1,0 +1,19 @@
+<h1>Metrics</h1>
+<p class="muted small">Daily totals only. No people, no chats, no events: nothing here can be traced back to anyone.</p>
+<section class="card">
+  <h2>Last 8 weeks</h2>
+  <table>
+    <% @totals.sort.each do |key, count| %><tr><th><%= key.humanize %></th><td><%= count %></td></tr><% end %>
+    <% @rates.each do |label, value| %><tr><th><%= label %></th><td><%= value %></td></tr><% end %>
+  </table>
+</section>
+<section class="card">
+  <h2>By day</h2>
+  <table>
+    <thead><tr><th>Day</th><th>Handshakes</th><th>Chats</th><th>Groups</th><th>2nd day</th><th>Reveal 1</th></tr></thead>
+    <% @days.each do |day| %>
+      <tr><td><%= day.strftime("%b %-d") %></td>
+        <% %w[handshakes chats_started groups_formed second_conversations reveal_step_1].each do |key| %><td><%= @rows[[ day, key ]].to_i %></td><% end %></tr>
+    <% end %>
+  </table>
+</section>

@@ -1,0 +1,17 @@
+<% content_for :title, "Add someone · Handshake" %>
+<p><%= link_to "← Back to the chat", chat_thread_path(@thread) %></p>
+<h1>Add someone</h1>
+<p class="muted">Two quick steps, just like your first handshake. Then everyone here is asked. Nobody joins without the group's yes.</p>
+
+<%= render "add_ins/card", code: @code, display: @display %>
+
+<section class="card">
+  <h2>2. You enter their code</h2>
+  <%= form_with url: code_entries_path, method: :post, data: { controller: "code-input", action: "turbo:submit-end->code-input#done" } do %>
+    <%= label_tag :code, "Their code" %>
+    <%= text_field_tag :code, nil, class: "code-input", inputmode: "numeric", autocomplete: "off", placeholder: "00-00-00", maxlength: 8, required: true,
+          data: { code_input_target: "input", action: "input->code-input#format" } %>
+    <div class="row"><%= submit_tag "Ask the group", class: "btn btn-block" %></div>
+    <p id="entry_status" class="status" aria-live="assertive"></p>
+  <% end %>
+</section>

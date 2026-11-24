@@ -1,0 +1,32 @@
+<% content_for :title, "Where are you? · Handshake" %>
+<h1>Where are you?</h1>
+<p class="muted">Codes work for people in the same place. Pick one way to say where.</p>
+
+<section class="card stack">
+  <h2>At a venue?</h2>
+  <p>Look for a Handshake table tent or poster. <strong>Scan its QR code</strong> with your phone camera, or type the zone and the two words on it.</p>
+  <%= form_with url: zone_path, method: :post, class: "stack" do %>
+    <div class="row row-bottom">
+      <div class="field">
+        <%= label_tag :zone_number, "Zone" %>
+        <%= text_field_tag :zone_number, params[:zone_number], inputmode: "numeric", maxlength: 2, pattern: "[0-9]{2}", placeholder: "47", autocomplete: "off", required: true, size: 3 %>
+      </div>
+      <div class="field">
+        <%= label_tag :word, "Table words" %>
+        <%= text_field_tag :word, nil, placeholder: "maple fox", autocomplete: "off", autocapitalize: "none", required: true, size: 12 %>
+      </div>
+    </div>
+    <%= submit_tag "Use this zone", class: "btn btn-block" %>
+  <% end %>
+</section>
+
+<section class="card stack">
+  <h2>Somewhere else?</h2>
+  <p>Use your area instead. Your phone rounds your location to a square about 1 km wide before sending it. We turn that into a zone number and forget it.</p>
+  <%= form_with url: zone_path, method: :post, data: { controller: "locate" } do %>
+    <%= hidden_field_tag :cell_lat, nil, data: { locate_target: "lat" } %>
+    <%= hidden_field_tag :cell_lng, nil, data: { locate_target: "lng" } %>
+    <button type="button" class="btn btn-quiet btn-block" data-action="locate#locate" data-locate-target="button">Use my area</button>
+    <p class="status muted" data-locate-target="status" aria-live="polite"></p>
+  <% end %>
+</section>

@@ -1,0 +1,6 @@
+<%= turbo_stream.update "entry_status" do %>
+  <span class="status-<%= @tone %>" role="<%= @tone == 'warn' ? 'alert' : 'status' %>"><%= @message %></span>
+<% end %>
+<% if @redirect %>
+  <turbo-stream action="visit" location="<%= @redirect %>"><template></template></turbo-stream>
+<% end %>

@@ -1,0 +1,7 @@
+<h1><%= @venue.name %> is ready</h1>
+<section class="card stack">
+  <p><strong>Staff dashboard link</strong> (shown once, copy it now):</p>
+  <p><code><%= venue_dashboard_url(@token) %></code></p>
+  <p class="small muted">We only keep a scrambled copy of this link, so we can't show it again.</p>
+  <%= link_to "Back to venues", admin_venues_path, class: "btn btn-quiet" %>
+</section>

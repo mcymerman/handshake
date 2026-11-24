@@ -1,0 +1,54 @@
+# Local development with Docker:
+#   docker compose up            -> http://localhost:3000 (development, demo mode on)
+#   docker compose --profile prod up --build prod
+#                                -> http://localhost:3001 (the real production image, plain http)
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      DB_HOST: db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      SOLID_QUEUE_IN_PUMA: "1"
+      DEMO_MODE: "true"
+    volumes:
+      - .:/rails
+      - bundle:/bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  prod:
+    profiles: ["prod"]
+    build: .
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/handshake_production
+      SECRET_KEY_BASE: local-only-not-a-secret-local-only-not-a-secret-local-only-not-a-secret-0000
+      FORCE_SSL: "false"
+      SOLID_QUEUE_IN_PUMA: "true"
+      DEMO_MODE: "true"
+    ports:
+      - "3001:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  bundle:

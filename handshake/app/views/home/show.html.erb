@@ -1,0 +1,41 @@
+<% content_for :title, "Your code · Handshake" %>
+<div class="spread">
+  <span class="zone-pill">Zone <%= zone_context.zone_number %> · <%= zone_context.label %>
+    <%= link_to "change", zone_path, data: { turbo_method: :delete } %></span>
+  <% if @chat_count.positive? %>
+    <%= link_to chat_threads_path, class: "btn btn-quiet btn-small" do %>Chats <span class="badge"><%= @chat_count %></span><% end %>
+  <% end %>
+</div>
+
+<% if @pending_proposal %>
+  <p class="card">You've asked to join a chat. <%= link_to "See where it's at", waiting_proposal_path(@pending_proposal) %></p>
+<% end %>
+
+<%= render "home/code_card", code: @code, display: @display, open: @open %>
+
+<% if @open %>
+  <section class="card">
+    <%= form_with url: code_entries_path, method: :post, data: { controller: "code-input", action: "turbo:submit-end->code-input#done" } do %>
+      <%= label_tag :code, "Their code" %>
+      <%= text_field_tag :code, nil, class: "code-input", inputmode: "numeric", autocomplete: "off", placeholder: "00-00-00",
+            maxlength: 8, required: true, "aria-describedby": "entry_status", data: { code_input_target: "input", action: "input->code-input#format" } %>
+      <div class="row">
+        <%= submit_tag "Connect", class: "btn btn-block" %>
+      </div>
+      <p id="entry_status" class="status" aria-live="assertive"></p>
+    <% end %>
+  </section>
+
+  <% if demo_mode? %>
+    <section class="card stack">
+      <% if flash[:demo_code] %>
+        <h2>Your demo friend's code</h2>
+        <p class="center"><%= code_tag(flash[:demo_code]) %></p>
+        <p class="muted small">They've already typed yours. Enter theirs above within a minute.</p>
+      <% else %>
+        <p class="muted">Nobody around? <strong>Demo mode</strong> gives you a friendly bot to try it with.</p>
+        <%= button_to "Try with a demo friend", demo_friend_path, class: "btn btn-sun btn-block" %>
+      <% end %>
+    </section>
+  <% end %>
+<% end %>

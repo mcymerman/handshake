@@ -1,0 +1,16 @@
+<%= turbo_frame_tag "my_code", data: { refresh_url: my_code_path } do %>
+  <section class="card code-card">
+    <% if open %>
+      <h1 class="h2">Your code</h1>
+      <%= countdown_ring(seconds: code.seconds_left, total: HandshakeCode::LIFETIMES["personal"].to_i) do %>
+        <%= code_tag(display) %>
+        <span class="secs" data-countdown-target="label"><%= code.seconds_left %>s</span>
+      <% end %>
+      <p>Say it to the person you just met. It changes every minute.</p>
+      <%= link_to "Show big", big_code_path, class: "btn btn-quiet btn-small", data: { turbo_frame: "_top" } %>
+    <% else %>
+      <h1 class="h2">This zone is closed right now</h1>
+      <p class="muted">Venue zones only work during opening hours. <%= link_to "Choose another zone", new_zone_path, data: { turbo_frame: "_top" } %>.</p>
+    <% end %>
+  </section>
+<% end %>

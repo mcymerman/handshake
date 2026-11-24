@@ -1,0 +1,18 @@
+# Solid Cable: Action Cable over PostgreSQL. No Redis to run or pay for; the
+# same database already backs everything else. Good to roughly 1,000
+# concurrent sockets; switch the adapter to redis beyond that.
+development:
+  adapter: solid_cable
+  polling_interval: 0.1.seconds
+  message_retention: 1.hour
+
+# The test adapter also delivers messages in-process, so system tests see
+# real-time updates while unit tests can assert on broadcasts.
+test:
+  adapter: test
+
+production:
+  adapter: solid_cable
+  polling_interval: 0.1.seconds
+  # Broadcasts contain rendered messages; keep them only briefly.
+  message_retention: 10.minutes

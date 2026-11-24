@@ -1,0 +1,27 @@
+<h1>Reports</h1>
+<p class="muted small">Minimal data: reason, note, alias and evidence only if the reporter attached it. Deleted after 90 days.</p>
+<% if @reports.empty? %><p class="card">No reports.</p><% end %>
+<% @reports.each do |report| %>
+  <section class="card stack">
+    <div class="spread">
+      <strong><%= report.reason_label %></strong>
+      <span class="small muted"><%= report.created_at.strftime("%b %-d %H:%M") %> · <%= report.status %></span>
+    </div>
+    <p class="small">About: <%= report.reported_alias || "not one person" %></p>
+    <% if report.note.present? %><p><%= report.note %></p><% end %>
+    <% if report.evidence.present? %>
+      <pre class="evidence"><%= report.evidence %></pre>
+    <% else %>
+      <p class="small muted">No messages attached.</p>
+    <% end %>
+    <% if report.status == "open" %>
+      <div class="row">
+        <%= button_to "Resolve", admin_report_path(report), method: :patch, params: { decision: "resolve" }, class: "btn btn-quiet btn-small" %>
+        <% if report.reported_participant_id %>
+          <%= button_to "Suspend their device", admin_report_path(report), method: :patch, params: { decision: "suspend" }, class: "btn btn-warn btn-small",
+                form: { data: { turbo_confirm: "Suspend this device? It leaves all chats and can't start new ones." } } %>
+        <% end %>
+      </div>
+    <% end %>
+  </section>
+<% end %>

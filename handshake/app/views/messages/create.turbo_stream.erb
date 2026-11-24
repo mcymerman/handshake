@@ -1,0 +1,3 @@
+<% if @message %>
+  <%= turbo_stream.append "messages", partial: "messages/message", locals: { message: @message } %>
+<% end %>

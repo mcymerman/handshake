@@ -1,0 +1,16 @@
+/.bundle
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+/tmp/pids/*
+/tmp/storage/*
+/storage/*
+/public/assets
+/config/master.key
+/config/credentials/*.key
+.env
+.env.*
+!.env.example
+/coverage
+.byebug_history

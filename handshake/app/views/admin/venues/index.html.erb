@@ -1,0 +1,13 @@
+<div class="spread"><h1>Venues</h1><%= link_to "Add venue", new_admin_venue_path, class: "btn btn-small" %></div>
+<section class="card">
+  <table>
+    <thead><tr><th>Venue</th><th>Zone</th><th>Hours</th><th>Theme</th><th>Table words</th></tr></thead>
+    <tbody>
+      <% @venues.each do |venue| %>
+        <% venue.zones.each do |zone| %>
+          <tr><td><%= venue.name %></td><td><%= zone.zone_number %></td><td><%= zone.hours_label %></td><td><%= zone.theme_label %></td><td><%= venue.table_word %></td></tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</section>

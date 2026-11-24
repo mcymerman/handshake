@@ -1,0 +1,4 @@
+<% content_for :title, "#{@venue.name} · Handshake" %>
+<div class="live" data-controller="auto-refresh" data-auto-refresh-seconds-value="600">
+  <%= render "venue_dashboards/tent", venue: @venue, zones: @zones %>
+</div>

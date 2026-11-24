@@ -1,0 +1,19 @@
+<% content_for :title, "Group handshake · Handshake" %>
+<p><%= link_to "← Back to the chat", chat_thread_path(@thread) %></p>
+<h1>Group handshake</h1>
+<% if @display %>
+  <section class="card code-card">
+    <p>Anyone nearby can enter this code for 2 minutes.</p>
+    <%= countdown_ring(seconds: @code.seconds_left, total: 120) do %>
+      <%= code_tag(@display) %>
+      <span class="secs" data-countdown-target="label"><%= @code.seconds_left %>s</span>
+    <% end %>
+    <p class="small muted">Everyone in the chat is still asked before anyone joins.</p>
+  </section>
+<% else %>
+  <section class="card stack">
+    <p>All together in person? Open a code that anyone nearby can enter for the next 2 minutes. It's quicker than adding people one by one.</p>
+    <p class="muted small">Each person who enters it still needs the group's yes before they join.</p>
+    <%= button_to "Start a 2-minute group handshake", chat_thread_group_handshake_path(@thread), class: "btn btn-block" %>
+  </section>
+<% end %>

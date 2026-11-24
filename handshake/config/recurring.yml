@@ -1,0 +1,27 @@
+# Purges run in every environment so expiry is real in development too.
+# Expiry is also enforced in queries, so a late job never shows stale data.
+default: &default
+  purge_expired_codes:
+    class: PurgeExpiredCodesJob
+    schedule: every minute
+  purge_cable_messages:
+    class: PurgeCableMessagesJob
+    schedule: every minute
+  expire_proposals:
+    class: ExpireProposalsJob
+    schedule: every minute
+  purge_expired_threads:
+    class: PurgeExpiredThreadsJob
+    schedule: every 10 minutes
+  daily_retention:
+    class: DailyRetentionJob
+    schedule: every day at 4am
+  clear_solid_queue_finished_jobs:
+    command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
+    schedule: every hour at minute 12
+
+development:
+  <<: *default
+
+production:
+  <<: *default
