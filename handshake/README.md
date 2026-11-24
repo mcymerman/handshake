@@ -296,9 +296,8 @@ These are honest notes on the prototype, not hidden problems.
 - **Premium, payments and the verified-human badge** are in the business plan,
   not in the code. Plan limits (`Participant::PLANS`) are the extension point.
 - **Legal.** The terms page is a draft pending legal review.
-- **Not yet run here:** the Render and Kamal deploys, and the GitHub Actions
-  run (this repository has no remote yet). See the test plan for what was
-  verified locally.
+- **Not yet run:** the Render and Kamal deploys, and the Docker image build.
+  GitHub Actions CI has run and passed (2026-11-24). See the test plan.
 
 ## Extension points
 

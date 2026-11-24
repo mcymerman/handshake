@@ -54,7 +54,7 @@ phones, a lawyer). Those are listed at the end.
 | `.env.example`, `database.yml`, credentials, asset precompile | Met. Precompile was checked in a local production-mode boot | `handshake/.env.example`, `config/` |
 | Kamal and Render configs with steps | Written; **not deployed** (needs Michael's "deploy" and accounts) | `config/deploy.yml`, `.kamal/secrets`, `../../render.yaml`, README "Deploy" |
 | `bin/setup`, migrations, `/up` | Met | `bin/setup`, `db/migrate/`, `/up` (200 in the production-mode check) |
-| GitHub Actions CI: RuboCop, Brakeman, bundler-audit, full tests | Written; **not run** (no GitHub remote yet). Every step was run locally and passes | `../../.github/workflows/handshake-ci.yml` |
+| GitHub Actions CI: RuboCop, Brakeman, bundler-audit, full tests | **Passed on GitHub** (first runs 2026-11-24: lint/scans and full tests including system tests) | `../../.github/workflows/handshake-ci.yml` |
 | Backup, log-retention and monitoring notes within the privacy promise | Met | `handshake/docs/OPERATIONS.md` |
 | README: setup, architecture, deploy, security, limitations | Met | `handshake/README.md` |
 
@@ -106,7 +106,6 @@ and the daily log.
 |---|---|
 | Build and run the Docker image; `docker compose up` | A Docker engine on this laptop (only the CLI is installed), or a CI runner |
 | Deploy to Render or a Kamal VM; run migrations and seeds in production | Michael's "deploy", a hosting choice and accounts |
-| A first GitHub Actions run | Michael's OK to commit and create a GitHub repository |
 | Testing on real iPhones and Android phones (including background tabs and a real GPS fix) | Real devices and people |
 | Legal review of terms, privacy copy and the age gate | A lawyer |
 | Trademark clearance for the name (Sayso recommended) | A trademark search |

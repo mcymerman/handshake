@@ -39,9 +39,9 @@ time, and only when both choose to. Chats vanish after 14 days.
   - An independent code review found 7 defects, 2 of them serious. All are
     fixed and tested.
 - **Deployment.** Docker, docker-compose, Kamal and Render configs, CI and a
-  README are written. **Nothing is deployed.** The Docker build, the deploys
-  and CI couldn't be run on this laptop; the test plan says exactly what was
-  and wasn't verified.
+  README are written. **Nothing is deployed.** CI now runs on GitHub and
+  passed on its first runs. The Docker build and the deploys haven't been
+  run; the test plan says exactly what was and wasn't verified.
 - **The team package.** All 13 deliverables plus the Phase 1–4 records:
   memos, the Cynic's review, six working sessions and the stage-gate build
   log.
@@ -125,6 +125,6 @@ only), or a white-label feature for community and coworking apps.
    founding venue rate.
 2. Choose the name, and order the trademark search before printing.
 3. Choose where it runs: Render (simplest) or Kamal on a VM (cheapest). Then
-   create the GitHub repository and turn on CI.
+   (the GitHub repository and CI are already set up).
 4. Legal review of the terms and privacy copy before any public use.
 5. Say "deploy" when you want a staging server. Nothing has been deployed.

@@ -124,8 +124,7 @@ We say so plainly rather than claim it passes.
   production boot was checked without Docker (above).
 - **Kamal and Render deploys.** Not run; there is no server or Render account
   for this project yet, and deploying needs Michael's go-ahead.
-- **GitHub Actions.** The workflow is written but has never run; the
-  repository has no GitHub remote yet.
+- **GitHub Actions.** Now verified: the first two runs on 2026-11-24 (branch `handshake-prototype`) passed both jobs: lint and security scans, and the full test suite including the headless-Chrome system tests.
 - **Real phones.** Phones were tested only through Chrome's device emulation
   at 390 px. Not tested on real iOS Safari or Android Chrome, including how
   they pause background tabs.
